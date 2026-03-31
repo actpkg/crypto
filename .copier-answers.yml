@@ -1,0 +1,6 @@
+_commit: ae322be
+_src_path: /mnt/devenv/workspace/act/act-component-template
+description: Cryptographic hashing, HMAC, and JWT decoding
+needs_filesystem: false
+needs_http: false
+project_name: crypto
