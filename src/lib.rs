@@ -70,8 +70,8 @@ mod component {
             ));
         }
 
-        let header = decode_jwt_part(parts[0])?;
-        let claims = decode_jwt_part(parts[1])?;
+        let Json(header) = decode_jwt_part(parts[0])?;
+        let Json(claims) = decode_jwt_part(parts[1])?;
 
         Ok(serde_json::json!({
             "header": header,
@@ -81,11 +81,12 @@ mod component {
     }
 }
 
-fn decode_jwt_part(part: &str) -> ActResult<serde_json::Value> {
+fn decode_jwt_part(part: &str) -> ActResult<Json<serde_json::Value>> {
     use base64::Engine;
     let bytes = base64::engine::general_purpose::URL_SAFE_NO_PAD
         .decode(part)
         .map_err(|e| ActError::invalid_args(format!("Invalid base64 in JWT: {e}")))?;
     serde_json::from_slice(&bytes)
         .map_err(|e| ActError::invalid_args(format!("Invalid JSON in JWT: {e}")))
+        .map(Json)
 }
