@@ -10,6 +10,6 @@ jsonpath "$.content[0].data" contains "John Doe"
 # Invalid JWT
 POST {{baseurl}}/tools/jwt-decode
 {"arguments": {"token": "not-a-jwt"}}
-HTTP 200
+HTTP 422
 [Asserts]
 jsonpath "$.error" exists
