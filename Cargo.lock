@@ -4,7 +4,7 @@ version = 4
 
 [[package]]
 name = "act-sdk"
-version = "0.2.8"
+version = "0.3.0"
 dependencies = [
  "act-sdk-macros",
  "act-types",
@@ -17,7 +17,7 @@ dependencies = [
 
 [[package]]
 name = "act-sdk-macros"
-version = "0.2.8"
+version = "0.3.0"
 dependencies = [
  "act-types",
  "ciborium",
@@ -32,7 +32,7 @@ dependencies = [
 
 [[package]]
 name = "act-types"
-version = "0.2.8"
+version = "0.3.0"
 dependencies = [
  "base64",
  "ciborium",
@@ -146,7 +146,7 @@ dependencies = [
 
 [[package]]
 name = "component-crypto"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "act-sdk",
  "base64",
