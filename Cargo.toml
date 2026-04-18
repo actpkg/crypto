@@ -5,11 +5,11 @@ version = "0.2.0"
 edition = "2024"
 
 [dependencies]
-act-sdk = "0.3"
-wit-bindgen = { version = "0.56", features = ["async-spawn"] }
-sha2 = "0.10"
-sha3 = "0.10"
-hmac = "0.12"
+act-sdk = "0.4"
+wit-bindgen = { version = "0.57", features = ["async-spawn"] }
+sha2 = "0.11"
+sha3 = "0.11"
+hmac = "0.13"
 hex = "0.4"
 serde_json = "1"
 base64 = "0.22"

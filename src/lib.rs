@@ -1,5 +1,5 @@
 use act_sdk::prelude::*;
-use hmac::{Hmac, Mac};
+use hmac::{Hmac, KeyInit, Mac};
 use sha2::{Digest as _, Sha256, Sha512};
 use sha3::Sha3_256;
 
