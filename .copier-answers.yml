@@ -1,5 +1,5 @@
-_commit: ae322be
-_src_path: /mnt/devenv/workspace/act/templates/act-template-rust
+_commit: b29103d
+_src_path: https://github.com/actcore/act-template-rust
 description: Cryptographic hashing, HMAC, and JWT decoding
 needs_filesystem: false
 needs_http: false
