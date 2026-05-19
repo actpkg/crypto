@@ -8,7 +8,7 @@ edition = "2024"
 act-sdk = "0.6"
 wit-bindgen = { version = "0.57", features = ["async-spawn"] }
 sha2 = "0.11"
-sha3 = "0.11"
+sha3 = "0.12"
 hmac = "0.13"
 hex = "0.4"
 serde_json = "1"
