@@ -87,6 +87,10 @@ jobs:
           # Create one at actpkg.dev and add it as the ACTPKG_TOKEN repo secret.
           OCI_USERNAME: __token__
           OCI_PASSWORD: ${{ secrets.ACTPKG_TOKEN }}
+          # This repo lives in the GitHub `actpkg` org but publishes to the
+          # curated `library` namespace on actpkg.dev (overrides the justfile's
+          # owner-derived default of actpkg.dev/<owner>).
+          OCI_REGISTRY: actpkg.dev/library
         run: just publish
       - name: Sign (keyless via GitHub OIDC)
         if: steps.publish.outputs.digest != ''
