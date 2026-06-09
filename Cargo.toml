@@ -6,7 +6,7 @@ edition = "2024"
 
 [dependencies]
 act-sdk = "0.6"
-wit-bindgen = { version = "0.57", features = ["async-spawn"] }
+wit-bindgen = { version = "0.58", features = ["async-spawn"] }
 sha2 = "0.11"
 sha3 = "0.11"
 hmac = "0.13"
