@@ -1,5 +1,6 @@
-_commit: 0.5.0-1-gb670f20
+_commit: 0.7.0
 _src_path: https://github.com/actcore/act-template-rust
+component_ref: actpkg.dev/library/crypto
 description: Cryptographic hashing, HMAC, and JWT decoding
 needs_filesystem: false
 needs_http: false
