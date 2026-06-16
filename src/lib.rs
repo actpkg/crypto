@@ -1,7 +1,32 @@
 use act_sdk::prelude::*;
 use hmac::{Hmac, KeyInit, Mac};
+use md5::Md5;
+use sha1::Sha1;
 use sha2::{Digest as _, Sha256, Sha512};
-use sha3::Sha3_256;
+use sha3::{Sha3_256, Sha3_512};
+
+/// Hash algorithms supported by `hash`. Serialized as the lowercase name so the
+/// tool's JSON Schema constrains `algorithm` to exactly these values.
+#[derive(Deserialize, JsonSchema, Clone, Copy)]
+#[serde(rename_all = "lowercase")]
+enum HashAlgorithm {
+    Md5,
+    Sha1,
+    Sha256,
+    Sha512,
+    #[serde(rename = "sha3-256", alias = "sha3")]
+    Sha3_256,
+    #[serde(rename = "sha3-512")]
+    Sha3_512,
+}
+
+/// Hash algorithms supported by `hmac` (HMAC is defined over a SHA-2 digest).
+#[derive(Deserialize, JsonSchema, Clone, Copy)]
+#[serde(rename_all = "lowercase")]
+enum HmacAlgorithm {
+    Sha256,
+    Sha512,
+}
 
 #[act_component]
 mod component {
@@ -11,17 +36,17 @@ mod component {
     #[act_tool(description = "Compute a cryptographic hash of a string", read_only)]
     fn hash(
         #[doc = "Input string to hash"] input: String,
-        #[doc = "Algorithm: 'sha256' (default), 'sha512', 'sha3-256'"] algorithm: Option<String>,
+        #[doc = "Hash algorithm: md5, sha1, sha256 (default), sha512, sha3-256, sha3-512"]
+        algorithm: Option<HashAlgorithm>,
     ) -> ActResult<String> {
-        let hex_hash = match algorithm.as_deref().unwrap_or("sha256") {
-            "sha256" => hex::encode(Sha256::digest(input.as_bytes())),
-            "sha512" => hex::encode(Sha512::digest(input.as_bytes())),
-            "sha3-256" | "sha3" => hex::encode(Sha3_256::digest(input.as_bytes())),
-            other => {
-                return Err(ActError::invalid_args(format!(
-                    "Unknown algorithm: {other}. Use: sha256, sha512, sha3-256"
-                )));
-            }
+        let bytes = input.as_bytes();
+        let hex_hash = match algorithm.unwrap_or(HashAlgorithm::Sha256) {
+            HashAlgorithm::Md5 => hex::encode(Md5::digest(bytes)),
+            HashAlgorithm::Sha1 => hex::encode(Sha1::digest(bytes)),
+            HashAlgorithm::Sha256 => hex::encode(Sha256::digest(bytes)),
+            HashAlgorithm::Sha512 => hex::encode(Sha512::digest(bytes)),
+            HashAlgorithm::Sha3_256 => hex::encode(Sha3_256::digest(bytes)),
+            HashAlgorithm::Sha3_512 => hex::encode(Sha3_512::digest(bytes)),
         };
         Ok(hex_hash)
     }
@@ -34,24 +59,21 @@ mod component {
     fn hmac(
         #[doc = "Message to sign"] message: String,
         #[doc = "Secret key"] key: String,
-        #[doc = "Algorithm: 'sha256' (default), 'sha512'"] algorithm: Option<String>,
+        #[doc = "HMAC hash algorithm: sha256 (default), sha512"] algorithm: Option<HmacAlgorithm>,
     ) -> ActResult<String> {
-        match algorithm.as_deref().unwrap_or("sha256") {
-            "sha256" => {
+        match algorithm.unwrap_or(HmacAlgorithm::Sha256) {
+            HmacAlgorithm::Sha256 => {
                 let mut mac = Hmac::<Sha256>::new_from_slice(key.as_bytes())
                     .map_err(|e| ActError::internal(format!("HMAC error: {e}")))?;
                 mac.update(message.as_bytes());
                 Ok(hex::encode(mac.finalize().into_bytes()))
             }
-            "sha512" => {
+            HmacAlgorithm::Sha512 => {
                 let mut mac = Hmac::<Sha512>::new_from_slice(key.as_bytes())
                     .map_err(|e| ActError::internal(format!("HMAC error: {e}")))?;
                 mac.update(message.as_bytes());
                 Ok(hex::encode(mac.finalize().into_bytes()))
             }
-            other => Err(ActError::invalid_args(format!(
-                "Unknown algorithm: {other}. Use: sha256, sha512"
-            ))),
         }
     }
 

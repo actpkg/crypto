@@ -4,9 +4,9 @@ version = 4
 
 [[package]]
 name = "act-sdk"
-version = "0.9.0"
+version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2a5395dbddb888200a102f9f7c0b986238183d6d838e31e5ea8c6c8f22baf171"
+checksum = "9f4110c0e760244d6e2fa722640c3258ad4057defaab34d6f02f7bdfe6a722e2"
 dependencies = [
  "act-sdk-macros",
  "act-types",
@@ -19,9 +19,9 @@ dependencies = [
 
 [[package]]
 name = "act-sdk-macros"
-version = "0.9.0"
+version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "422136d06adbf39a6a842bf2e923b1d3ab88d094488ac3887460a870b307864e"
+checksum = "edb8d739b190e02148e26ce2527f027b278106d3a528ced8fc81e031da59c27d"
 dependencies = [
  "darling",
  "proc-macro2",
@@ -31,9 +31,9 @@ dependencies = [
 
 [[package]]
 name = "act-types"
-version = "0.9.0"
+version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1c511017d90234b0d3680e0bfa55592337502a1d5e6c3e9d10021b0e7c3d35a2"
+checksum = "c9a69bc6b081f638fec734f145699a58e00e3fb5df54ec5d6ea015d58f3440b0"
 dependencies = [
  "base64",
  "ciborium",
@@ -162,13 +162,17 @@ checksum = "0c9ea0ac24bc397ab3c98583a3c9ba74fa56b09a4449bbe172b9b1ddb016027a"
 
 [[package]]
 name = "component-crypto"
-version = "0.3.1"
+version = "0.4.0"
 dependencies = [
  "act-sdk",
  "base64",
  "hex",
  "hmac",
+ "md-5",
+ "schemars 1.2.1",
+ "serde",
  "serde_json",
+ "sha1",
  "sha2",
  "sha3",
  "wit-bindgen",
@@ -532,6 +536,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "md-5"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "69b6441f590336821bb897fb28fc622898ccceb1d6cea3fde5ea86b090c4de98"
+dependencies = [
+ "cfg-if",
+ "digest",
+]
+
+[[package]]
 name = "memchr"
 version = "2.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -751,6 +765,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "sha1"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aacc4cc499359472b4abe1bf11d0b12e688af9a805fa5e3016f9a386dc2d0214"
+dependencies = [
+ "cfg-if",
+ "cpufeatures",
+ "digest",
 ]
 
 [[package]]

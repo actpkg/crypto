@@ -1,16 +1,20 @@
 [package]
 name = "component-crypto"
 description = "Cryptographic hashing, HMAC, and JWT decoding"
-version = "0.3.1"
+version = "0.4.0"
 edition = "2024"
 
 [dependencies]
-act-sdk = "0.9"
+act-sdk = "0.11"
 wit-bindgen = { version = "0.58", features = ["async-spawn"] }
+md-5 = "0.11"
+sha1 = "0.11"
 sha2 = "0.11"
 sha3 = "0.12"
 hmac = "0.13"
 hex = "0.4"
+serde = { version = "1", features = ["derive"] }
+schemars = "1"
 serde_json = "1"
 base64 = "0.22"
 
@@ -19,6 +23,7 @@ lto = "fat"
 codegen-units = 1
 strip = true
 opt-level = "z"
+panic = "abort"
 
 [lib]
 crate-type = ["cdylib"]
