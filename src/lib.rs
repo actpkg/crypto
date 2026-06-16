@@ -3,8 +3,6 @@ use hmac::{Hmac, KeyInit, Mac};
 use sha2::{Digest as _, Sha256, Sha512};
 use sha3::Sha3_256;
 
-act_sdk::embed_skill!("skill/");
-
 #[act_component]
 mod component {
     use super::*;
