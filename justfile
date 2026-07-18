@@ -21,7 +21,7 @@ pack: build
     {{actbuild}} pack {{wasm}}
 
 test: pack
-    uv run --with fastmcp --with pytest --with pytest-asyncio --python 3.12 pytest e2e/ -v
+    ACT="{{act}}" uv run --with fastmcp --with pytest --with pytest-asyncio --python 3.12 pytest e2e/ -v
 
 publish: pack
     #!/usr/bin/env bash

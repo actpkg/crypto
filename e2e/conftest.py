@@ -6,6 +6,7 @@ a real MCP client, so what the tests observe is what an agent observes.
 
 import json
 import os
+import shlex
 import subprocess
 import pytest
 from pathlib import Path
@@ -24,13 +25,21 @@ LOG_FILE = Path(".pytest-act-stderr.log")
 
 
 @pytest.fixture(scope="session")
-def act_binary() -> str:
-    """Honour the same ACT override the justfile uses, so CI and local agree."""
-    return os.environ.get("ACT", "act")
+def act_command() -> list[str]:
+    """The ACT invocation, honouring the same override the justfile uses.
+
+    Parsed with shlex, not treated as a single path: the justfile's own
+    default for its `act` variable is `npx @actcore/act` — two words — which
+    cannot be `argv[0]` for a non-shell `subprocess.run`/`StdioTransport`
+    call. A bare `os.environ.get("ACT", "act")` string breaks that default;
+    splitting it is what makes both forms ("act" on PATH, and the npx
+    two-word default) actually spawn.
+    """
+    return shlex.split(os.environ.get("ACT", "act"))
 
 
 @pytest.fixture(scope="session")
-def wasm_path(act_binary: str) -> Path:
+def wasm_path(act_command: list[str]) -> Path:
     """The packed component.
 
     Existence is not enough and neither is a fresh mtime: `cargo build`
@@ -44,7 +53,7 @@ def wasm_path(act_binary: str) -> Path:
     if not path.exists():
         pytest.fail(f"{path} is missing — run `just build && just pack` first")
     probe = subprocess.run(
-        [act_binary, "inspect", "component-manifest", str(path)],
+        [*act_command, "inspect", "component-manifest", str(path)],
         capture_output=True, text=True,
     )
     name = json.loads(probe.stdout or "{}").get("std", {}).get("name", "unknown")
@@ -54,7 +63,7 @@ def wasm_path(act_binary: str) -> Path:
 
 
 @pytest.fixture
-async def client(act_binary: str, wasm_path: Path):
+async def client(act_command: list[str], wasm_path: Path):
     """A connected MCP client, one `act` process per test.
 
     Function-scoped on purpose: an ACT component keeps state across calls
@@ -63,8 +72,8 @@ async def client(act_binary: str, wasm_path: Path):
     the default is the safe one.
     """
     transport = StdioTransport(
-        command=act_binary,
-        args=["run", str(wasm_path), "--mcp"],
+        command=act_command[0],
+        args=[*act_command[1:], "run", str(wasm_path), "--mcp"],
         keep_alive=False,  # crypto is pure/stateless — findings Q3: fresh process is the safe default
         log_file=LOG_FILE,
     )
