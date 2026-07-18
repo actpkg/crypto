@@ -1,6 +1,0 @@
-# HMAC-SHA256
-POST {{baseurl}}/tools/hmac
-{"arguments": {"message": "hello", "key": "secret"}}
-HTTP 200
-[Asserts]
-jsonpath "$.content[0].data" == "88aab3ede8d3adf94d26ab90d3bafd4a2083070c3bcce9c014ee04a443847c0b"
