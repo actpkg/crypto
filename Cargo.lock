@@ -35,7 +35,7 @@ version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8c3d616738892f6e5a9589b6a8649fcc9e9023de39fd8d26267e089467d7787a"
 dependencies = [
- "base64",
+ "base64 0.22.1",
  "ciborium",
  "serde",
  "serde_json",
@@ -68,6 +68,12 @@ name = "base64"
 version = "0.22.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
+
+[[package]]
+name = "base64"
+version = "0.23.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b25655df2c3cdd83c5e5b293b88acd880332b2ddadd7c30ac43144fdc0033da9"
 
 [[package]]
 name = "bitflags"
@@ -165,7 +171,7 @@ name = "component-crypto"
 version = "0.4.3"
 dependencies = [
  "act-sdk",
- "base64",
+ "base64 0.23.0",
  "hex",
  "hmac",
  "md-5",
@@ -740,7 +746,7 @@ version = "3.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "76a5c54c7310e7b8b9577c286d7e399ddd876c3e12b3ed917a8aabc4b96e9e8c"
 dependencies = [
- "base64",
+ "base64 0.22.1",
  "bs58",
  "chrono",
  "hex",
